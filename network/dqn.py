@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import numpy as numpy
+import numpy as np
 
 
 class DQN(nn.Module):
@@ -26,8 +26,6 @@ class DQN(nn.Module):
 
     def _get_conv_out(self, shape):
         o = self.conv(torch.zeros(1, *shape))
-        print(o)
-        print(torch.zeros(1, *shape))
         return int(np.prod(o.size()))
 
     def forward(self, x):

@@ -1,4 +1,11 @@
+
+
+# Taken from
+# https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On/blob/master/Chapter06/lib/wrappers.py
 import gym
+import cv2
+import numpy as np
+import collections
 
 
 class FireResetEnv(gym.Wrapper):
@@ -24,6 +31,7 @@ class FireResetEnv(gym.Wrapper):
 class MaxAndSkipEnv(gym.Wrapper):
     def __init__(self, env=None, skip=4):
         super(MaxAndSkipEnv, self).__init__(env)
+        # most recent raw observations (for max pooling across time steps)
         self._obs_buffer = collections.deque(maxlen=2)
         self._skip = skip
 
@@ -95,14 +103,11 @@ class ImageToPyTorch(gym.ObservationWrapper):
     def __init__(self, env):
         super(ImageToPyTorch, self).__init__(env)
         old_shape = self.observation_space.shape
-        self.observation_space = gym.spaces.Box(low=0.0, high=1.0,
-                                                shape=(old_shape[-1],
-                                                       old_shape[0], old_shape[1]),
-                                                dtype=np.float32)
+        self.observation_space = gym.spaces.Box(low=0.0, high=1.0, shape=(old_shape[-1],
+                                                                          old_shape[0], old_shape[1]), dtype=np.float32)
 
-
-def observation(self, observation):
-    return np.moveaxis(observation, 2, 0)
+    def observation(self, observation):
+        return np.moveaxis(observation, 2, 0)
 
 
 class ScaledFloatFrame(gym.ObservationWrapper):
@@ -111,7 +116,7 @@ class ScaledFloatFrame(gym.ObservationWrapper):
 
 
 def make_env(env_name):
-    env = gym.make(env_name)
+    env = gym.make(env_name, render_mode='human')
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
     env = ProcessFrame84(env)
