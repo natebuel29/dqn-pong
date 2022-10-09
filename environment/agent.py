@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from experience import Experience
+from environment.experience import Experience
 
 
 class Agent:
@@ -16,6 +16,7 @@ class Agent:
     def play_step(self, net, epsilon=0.0, device="cpu"):
         done_reward = None
 
+        # if less than epsilon threshhold, then select random action for exploration
         if np.random.random() < epsilon:
             action = self.env.action_space.sample()
         else:

@@ -1,4 +1,4 @@
-from wrappers import wrappers
+from environment import wrappers
 import gym
 from network.dqn import DQN
 import torch

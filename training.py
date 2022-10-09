@@ -1,8 +1,6 @@
 import gym
 from network import dqn
-from wrappers import wrappers
-import experience
-import agent
+from environment import experience, agent, wrappers
 import torch
 import torch.optim as optim  # Pytorch optimization package
 import torch.nn as nn
